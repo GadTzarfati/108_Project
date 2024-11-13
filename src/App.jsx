@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
-import Login from './assets/Login'
+import ProductSelect from './components/ProductSelect'
+import Login from './components/Login'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -8,6 +9,7 @@ function App() {
   return (
     <>
     <Login/>
+    <ProductSelect/>
     </>
   )
 }
