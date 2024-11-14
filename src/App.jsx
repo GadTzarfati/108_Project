@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import ProductSelect from './components/ProductSelect';
+import OneProduct from './components/OneProduct';
+import Stremer from './components/Stremer';
+import Profile from './components/Profile';
 
 function App() {
   // State to manage login status
@@ -17,15 +21,30 @@ function App() {
   };
 
   return (
-    <div>
-      {isLoggedIn ? (
-        // Show ProductSelect component if logged in, with a way to log out
-        <ProductSelect onLogout={handleLogout} />
-      ) : (
-        // Show Login component if not logged in
-        <Login onLogin={handleLogin} />
-      )}
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? (
+              <Navigate to="/products" />
+            ) : (
+              <Login onLogin={handleLogin} />
+            )
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            isLoggedIn ? (
+              <ProductSelect onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

@@ -52,16 +52,10 @@ function Login({ onLogin }) {
             Login
           </button>
           {error && <p className="mt-4 text-center text-red-500">{error}</p>}
-          <div className="flex justify-between items-center mt-4">
+           <div className="flex justify-between items-center mt-4">
             <a href="#" className="text-indigo-500 hover:underline">
               Forgot Password
             </a>
-            <button
-              type="button"
-              className="text-red-500 hover:underline"
-            >
-              Logout
-            </button>
           </div>
         </form>
       </div>
