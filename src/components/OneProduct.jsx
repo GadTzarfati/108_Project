@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { FaArrowLeft, FaBug } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom'; // ייבוא useNavigate
+import { FaArrowLeft, FaBug, FaPowerOff } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const OneProduct = ({ product, onBack }) => {
   const [selectedDebug, setSelectedDebug] = useState(null);
+  const [isPowerOn, setIsPowerOn] = useState(false); // מצב הכפתור "הדלקה וכיבוי"
   const debugOptions = ['Chip 1', 'Chip 2', 'Chip 3'];
-  const navigate = useNavigate(); // יצירת הפונקציה לניווט
+  const navigate = useNavigate();
 
   const handleDebugSelect = (option) => {
     setSelectedDebug(option);
@@ -15,37 +16,48 @@ const OneProduct = ({ product, onBack }) => {
     setSelectedDebug(null);
   };
 
+  const togglePower = () => {
+    setIsPowerOn((prev) => !prev);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900 flex flex-col p-6 relative">
-      {/* כפתור חזרה עם אייקון חץ בצבעי האתר */}
+      {/* כפתור חזרה */}
       <button
         onClick={onBack}
-        className="absolute top-4 left-4 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center"
+        className="absolute top-4 left-4 bg-indigo-600 text-white p-2 rounded-full shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center w-12 h-12"
       >
-        <FaArrowLeft size={20} />
+        <FaArrowLeft size={16} />
       </button>
-      {/* כפתור Debug בצורת עיגול */}
-      <div className="absolute top-4 right-4">
-        <button
-          onClick={() => setSelectedDebug('')}
-          className="bg-yellow-400 text-black p-3 rounded-full shadow-lg hover:bg-yellow-500 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center w-16 h-16"
-        >
-          <FaBug size={24} className="absolute" />
-        </button>
-      </div>
-      {/* תיאור ותמונה מתחת לכפתור החזרה */}
+      {/* כפתור Debug */}
+      <button
+        onClick={() => setSelectedDebug('')}
+        className="absolute top-4 right-24 bg-yellow-400 text-black p-2 rounded-full shadow-lg hover:bg-yellow-500 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center w-12 h-12"
+      >
+        <FaBug size={18} />
+      </button>
+      {/* כפתור הדלקה וכיבוי */}
+      <button
+        onClick={togglePower}
+        className={`absolute top-4 right-4 p-2 rounded-full shadow-lg transition-transform transform hover:-translate-y-1 flex items-center justify-center w-12 h-12 ${
+          isPowerOn ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-500 hover:bg-gray-600'
+        }`}
+      >
+        <FaPowerOff size={18} className="text-white" />
+      </button>
+
+      {/* תיאור ותמונה */}
       <div className="flex flex-col items-start mt-20 ml-12">
-        {/* הצגת התמונה בגודל התואם לרוחב הכרטיסיה */}
         <img
           src={product.image}
           alt={product.text}
           className="w-3/4 h-auto rounded-lg shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 mb-4 max-w-xs"
         />
-        {/* תיאור בתוך כרטיסיה מתחת לתמונה */}
         <div className="bg-indigo-600 text-white p-4 rounded-lg shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 w-3/4 max-w-xs text-center">
           <h1 className="text-lg font-bold">{product.text}</h1>
         </div>
       </div>
+
       {/* כפתורי הפעולות מוגדלים יותר במרכז בצד ימין */}
       <div className="absolute right-16 top-1/2 transform -translate-y-1/2 flex flex-col gap-8">
         {['SSH', 'Telnet', 'CLI', 'JPref'].map((buttonLabel) => (
@@ -57,11 +69,12 @@ const OneProduct = ({ product, onBack }) => {
           </button>
         ))}
       </div>
+
       {/* כפתורי Stremer ו-Site Machine */}
       <div className="flex flex-col items-center mt-12 gap-6">
         <button
           className="bg-purple-500 text-white py-6 px-12 rounded-lg shadow-lg hover:bg-purple-600 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none text-2xl"
-          onClick={() => navigate('/stremer')} // ניווט לקומפוננטת Stremer
+          onClick={() => navigate('/stremer')}
         >
           Stremer
         </button>
@@ -71,11 +84,12 @@ const OneProduct = ({ product, onBack }) => {
           Site Machine
         </button>
       </div>
+
       {/* חלון בחירת Debug */}
       {selectedDebug && (
         <div className="mt-6 bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold mb-4">Select Debug Option</h2>
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4  justify-center">
             {debugOptions.map((option, index) => (
               <button
                 key={index}

@@ -1,0 +1,4 @@
+class X_Machine extends machine {
+    wheel = 2;
+    
+}
