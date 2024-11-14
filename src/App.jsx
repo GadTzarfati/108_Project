@@ -1,17 +1,27 @@
-import { useState } from 'react'
-import './App.css'
-import ProductSelect from './components/ProductSelect'
-import Login from './components/Login'
+import React, { useState } from 'react';
+import Login from './components/Login';
+import ProductSelect from './components/ProductSelect';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // State to manage login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Handler function for successful login
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
 
   return (
-    <>
-    <Login/>
-    <ProductSelect/>
-    </>
-  )
+    <div>
+      {isLoggedIn ? (
+        // Show ProductSelect component if logged in
+        <ProductSelect />
+      ) : (
+        // Show Login component if not logged in
+        <Login onLogin={handleLogin} />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
