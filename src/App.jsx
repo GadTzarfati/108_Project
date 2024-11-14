@@ -24,25 +24,13 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/"
-          element={
-            isLoggedIn ? (
-              <Navigate to="/products" />
-            ) : (
-              <Login onLogin={handleLogin} />
-            )
-          }
-        />
+          path="/"element={isLoggedIn ? (<Navigate to="/products" />) : 
+            (<Login onLogin={handleLogin} />)
+          }/>
         <Route
-          path="/products"
-          element={
-            isLoggedIn ? (
-              <ProductSelect onLogout={handleLogout} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
+          path="/products"element={isLoggedIn ? (<ProductSelect onLogout={handleLogout} />) : 
+          (<Navigate to="/" />)
+          }/>
       </Routes>
     </Router>
   );

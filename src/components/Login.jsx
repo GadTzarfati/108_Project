@@ -10,7 +10,7 @@ function Login({ onLogin }) {
 
     // שם משתמש וסיסמה קבועים לדוגמה
     const hardcodedUsername = 'Gad';
-    const hardcodedPassword = '12345';
+    const hardcodedPassword = 'Gadosh0548994778';
 
     // בדיקת פרטי התחברות
     if (username === hardcodedUsername && password === hardcodedPassword) {
