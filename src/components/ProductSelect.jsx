@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const ProductSelect = ({ onLogout }) => {
+const ProductSelect = ({ onLogout, onProductSelect }) => {
+  const navigate = useNavigate();
+
   const cards = [
     {
       id: 1,
@@ -32,7 +35,6 @@ const ProductSelect = ({ onLogout }) => {
   const [favorite, setFavorite] = useState(null);
 
   useEffect(() => {
-    // בדיקת מועדף מה-localStorage אם קיים
     const storedFavorite = localStorage.getItem('favorite');
     if (storedFavorite) {
       setFavorite(JSON.parse(storedFavorite));
@@ -41,30 +43,38 @@ const ProductSelect = ({ onLogout }) => {
 
   const handleFavorite = (product) => {
     if (favorite && favorite.id === product.id) {
-      // הסרת המועדף
       setFavorite(null);
       localStorage.removeItem('favorite');
     } else {
-      // סימון כמועדף ושמירה ב-localStorage
       setFavorite(product);
       localStorage.setItem('favorite', JSON.stringify(product));
     }
   };
 
+  const handleCardClick = (product) => {
+    onProductSelect(product);
+    navigate('/product-details');
+  };
+
+  const handleLogout = () => {
+    onLogout(); // קריאה לפונקציית onLogout כדי לשנות את מצב ההתחברות
+    navigate('/'); // ניווט לדף הראשי (לוגין)
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900 flex flex-col items-center justify-center p-6 relative">
       <button
-        onClick={onLogout}
+        onClick={handleLogout}
         className="absolute bottom-4 left-4 bg-indigo-600 text-white py-2 px-4 rounded-full flex items-center shadow-lg hover:bg-indigo-700 hover:shadow-xl transition transform hover:-translate-y-1"
       >
         <span className="mr-2">&larr;</span> Logout
       </button>
       <div className="flex gap-6 justify-center flex-wrap">
-        {/* תצוגת כל המוצרים */}
         {cards.map((card) => (
           <div
             key={card.id}
             className="relative flex flex-col items-center bg-gradient-to-br from-gray-800 via-indigo-800 to-black rounded-lg p-4 shadow-lg w-72 h-96 transform transition-transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+            onClick={() => handleCardClick(card)}
           >
             <div className="relative w-full h-full">
               <img
