@@ -1,15 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function Login() {
+function Login({ onLogin }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // שם משתמש וסיסמה קבועים לדוגמה
+    const hardcodedUsername = 'Gad';
+    const hardcodedPassword = '12345';
+
+    // בדיקת פרטי התחברות
+    if (username === hardcodedUsername && password === hardcodedPassword) {
+      onLogin(); // התחברות מוצלחת
+    } else {
+      setError('שם משתמש או סיסמה לא נכונים');
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-t from-black via-purple-900 to-black">
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Login</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
               type="text"
               placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg text-left focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
             />
@@ -18,6 +39,8 @@ function Login() {
             <input
               type="password"
               placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg text-left focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
             />
@@ -28,6 +51,7 @@ function Login() {
           >
             Login
           </button>
+          {error && <p className="mt-4 text-center text-red-500">{error}</p>}
           <div className="flex justify-between items-center mt-4">
             <a href="#" className="text-indigo-500 hover:underline">
               Forgot Password
