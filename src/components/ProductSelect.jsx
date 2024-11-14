@@ -41,7 +41,7 @@ const ProductSelect = () => {
 
   const handleFavorite = (product) => {
     if (favorite && favorite.id === product.id) {
-      // אם המוצר כבר מסומן כמועדף, הסר אותו
+      // הסרת המועדף
       setFavorite(null);
       localStorage.removeItem('favorite');
     } else {
@@ -51,60 +51,21 @@ const ProductSelect = () => {
     }
   };
 
-  const nonFavorites = favorite ? cards.filter((card) => card.id !== favorite.id) : cards;
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900 flex flex-col items-center justify-center p-6">
-      {favorite ? (
-        <>
-          {/* תצוגת מועדף בגדול */}
-          <div className="w-full max-w-2xl mb-6">
-            <div className="bg-gradient-to-br from-indigo-700 via-gray-800 to-black rounded-lg p-6 shadow-2xl">
+      <div className="flex gap-6 justify-center flex-wrap">
+        {/* תצוגת כל המוצרים */}
+        {cards.map((card) => (
+          <div
+            key={card.id}
+            className="relative flex flex-col items-center bg-gradient-to-br from-gray-800 via-indigo-800 to-black rounded-lg p-4 shadow-lg w-72 h-96 transform transition-transform hover:scale-105 hover:shadow-2xl cursor-pointer"
+          >
+            <div className="relative w-full h-full">
               <img
-                src={favorite.image}
-                alt={`Favorite ${favorite.id}`}
-                className="rounded-lg w-full h-96 object-cover shadow-xl"
+                src={card.image}
+                alt={`Card ${card.id}`}
+                className="w-full h-full object-cover rounded-lg"
               />
-              <p className="text-lg text-gray-300 mt-4">{favorite.text}</p>
-            </div>
-          </div>
-          {/* שאר המוצרים */}
-          <div className="flex gap-4 justify-center flex-wrap">
-            {nonFavorites.map((card) => (
-              <div key={card.id} className="relative flex flex-col items-center bg-gradient-to-br from-gray-800 via-indigo-800 to-black rounded-lg p-4 shadow-lg w-64 h-80">
-                <button
-                  onClick={() => alert('הצגת פרטי מוצר')}
-                  className="relative w-full h-full rounded-lg overflow-hidden focus:outline-none transform transition-transform hover:scale-105"
-                >
-                  <img src={card.image} alt={`Preview ${card.id}`} className="w-full h-full object-cover" />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleFavorite(card);
-                  }}
-                  className={`absolute top-2 right-2 text-2xl ${
-                    favorite && favorite.id === card.id ? 'text-yellow-400' : 'text-gray-400'
-                  } hover:text-yellow-300`}
-                >
-                  &#9733;
-                </button>
-                <p className="text-sm text-gray-300 mt-2 text-center w-48">{card.text}</p>
-              </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <div className="flex gap-6 justify-center flex-wrap">
-          {/* תצוגה ראשונית של כל המוצרים */}
-          {cards.map((card) => (
-            <div key={card.id} className="relative flex flex-col items-center bg-gradient-to-br from-gray-800 via-indigo-800 to-black rounded-lg p-4 shadow-lg w-72 h-96">
-              <button
-                onClick={() => alert('הצגת פרטי מוצר')}
-                className="relative w-full h-full rounded-lg overflow-hidden focus:outline-none transform transition-transform hover:scale-105"
-              >
-                <img src={card.image} alt={`Card ${card.id}`} className="w-full h-full object-cover" />
-              </button>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -112,15 +73,15 @@ const ProductSelect = () => {
                 }}
                 className={`absolute top-2 right-2 text-3xl ${
                   favorite && favorite.id === card.id ? 'text-yellow-400' : 'text-gray-400'
-                } hover:text-yellow-300`}
+                } hover:text-yellow-300 focus:outline-none`}
               >
                 &#9733;
               </button>
-              <p className="text-sm text-gray-300 mt-2 text-center w-48">{card.text}</p>
             </div>
-          ))}
-        </div>
-      )}
+            <p className="text-sm text-gray-300 mt-2 text-center w-48">{card.text}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
