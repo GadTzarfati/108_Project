@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ProductSelect = () => {
+const ProductSelect = ({ onLogout }) => {
   const cards = [
     {
       id: 1,
@@ -52,7 +52,13 @@ const ProductSelect = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900 flex flex-col items-center justify-center p-6 relative">
+      <button
+        onClick={onLogout}
+        className="absolute bottom-4 left-4 bg-indigo-600 text-white py-2 px-4 rounded-full flex items-center shadow-lg hover:bg-indigo-700 hover:shadow-xl transition transform hover:-translate-y-1"
+      >
+        <span className="mr-2">&larr;</span> Logout
+      </button>
       <div className="flex gap-6 justify-center flex-wrap">
         {/* תצוגת כל המוצרים */}
         {cards.map((card) => (
