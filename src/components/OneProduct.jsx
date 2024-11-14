@@ -81,7 +81,7 @@ const OneProduct = ({ product, onBack }) => {
         <button
           className="bg-blue-500 text-white py-6 px-12 rounded-lg shadow-lg hover:bg-blue-600 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none text-2xl"
         >
-          Site Machine
+          Side Machine
         </button>
       </div>
 
@@ -115,4 +115,4 @@ const OneProduct = ({ product, onBack }) => {
   );
 };
 
-export default OneProduct;
+export default OneProduct;''
