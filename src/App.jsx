@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Login from './components/Login';
 import ProductSelect from './components/ProductSelect';
 import OneProduct from './components/OneProduct';
+import Stremer from './components/Stremer'; // ייבוא הקומפוננטה Stremer
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,6 +49,7 @@ function App() {
             )
           }
         />
+        <Route path="/stremer" element={<Stremer />} /> {/* הוספת הנתיב לקומפוננטת Stremer */}
       </Routes>
     </Router>
   );
