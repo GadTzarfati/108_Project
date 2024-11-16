@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { FaArrowLeft, FaBug, FaPowerOff } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import ModalWrapper from './ModalWrapper'; // Import the ModalWrapper
+import ModalWrapper from './ModalWrapper'; // ייבוא של ModalWrapper
+import SideMachines from './SideMachines'; // ייבוא של SideMachines
 
 const OneProduct = ({ product, onBack }) => {
   const [selectedDebug, setSelectedDebug] = useState(null);
   const [isPowerOn, setIsPowerOn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState(''); // Content for modal
+  const [modalContent, setModalContent] = useState(''); // תוכן המודאל
+  const [showSideMachinesModal, setShowSideMachinesModal] = useState(false); // מצב עבור מודאל SideMachines
   const debugOptions = ['Chip 1', 'Chip 2', 'Chip 3'];
   const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ const OneProduct = ({ product, onBack }) => {
             host: 'your-ssh-host',
             port: 22,
             username: 'your-username',
-            password: 'your-password', // יש להחליף לפרטים המתאימים שלך או לקבל אותם כקלט
+            password: 'your-password', // יש להחליף את הערכים המתאימים בפרטים שלך
           }),
         });
 
@@ -56,6 +58,10 @@ const OneProduct = ({ product, onBack }) => {
 
   const closeBlackbox = () => {
     setIsModalOpen(false);
+  };
+
+  const toggleSideMachinesModal = () => {
+    setShowSideMachinesModal((prev) => !prev);
   };
 
   return (
@@ -96,7 +102,7 @@ const OneProduct = ({ product, onBack }) => {
         </div>
       </div>
 
-      {/* כפתורי הפעולות מוגדלים יותר במרכז בצד ימין */}
+      {/* כפתורי הפעולות */}
       <div className="absolute right-16 top-1/2 transform -translate-y-1/2 flex flex-col gap-8">
         {['SSH', 'Telnet', 'CLI', 'JPref'].map((buttonLabel) => (
           <button
@@ -109,8 +115,8 @@ const OneProduct = ({ product, onBack }) => {
         ))}
       </div>
 
-      {/* כפתורי Stremer ו-Site Machine */}
-      <div className="flex flex-col items-center mt-12 gap-6">
+      {/* כפתור סטרימר ו-Side Machines */}
+      <div className="flex flex-col items-center mt-8 gap-6">
         <button
           className="bg-purple-500 text-white py-6 px-12 rounded-lg shadow-lg hover:bg-purple-600 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none text-2xl"
           onClick={() => openBlackbox('Streamer')}
@@ -118,12 +124,19 @@ const OneProduct = ({ product, onBack }) => {
           Stremer
         </button>
         <button
-          className="bg-blue-500 text-white py-6 px-12 rounded-lg shadow-lg hover:bg-blue-600 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none text-2xl"
-          onClick={() => openBlackbox('Side Machine')}
+          className="bg-blue-500 text-white py-4 px-8 rounded-lg shadow-lg hover:bg-blue-600 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none"
+          onClick={toggleSideMachinesModal}
         >
-          Side Machine
+          Open Side Machines
         </button>
       </div>
+
+      {/* מודאל עבור Side Machines */}
+      {showSideMachinesModal && (
+        <ModalWrapper isOpen={showSideMachinesModal} onClose={toggleSideMachinesModal}>
+          <SideMachines />
+        </ModalWrapper>
+      )}
 
       {/* חלון בחירת Debug */}
       {selectedDebug && (
@@ -152,7 +165,7 @@ const OneProduct = ({ product, onBack }) => {
         </div>
       )}
 
-      {/* Blackbox Modal */}
+      {/* מודאל עבור טרמינל */}
       <ModalWrapper isOpen={isModalOpen} onClose={closeBlackbox}>
         <h2 className="text-xl font-bold mb-4">{modalContent}</h2>
         <div className="h-48 bg-gray-900 p-4 rounded-lg overflow-auto">
