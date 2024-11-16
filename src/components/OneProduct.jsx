@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { FaArrowLeft, FaBug, FaPowerOff } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import ModalWrapper from './ModalWrapper'; // Import the ModalWrapper
 
 const OneProduct = ({ product, onBack }) => {
   const [selectedDebug, setSelectedDebug] = useState(null);
-  const [isPowerOn, setIsPowerOn] = useState(false); // מצב הכפתור "הדלקה וכיבוי"
+  const [isPowerOn, setIsPowerOn] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(''); // Content for modal
   const debugOptions = ['Chip 1', 'Chip 2', 'Chip 3'];
   const navigate = useNavigate();
 
@@ -18,6 +21,41 @@ const OneProduct = ({ product, onBack }) => {
 
   const togglePower = () => {
     setIsPowerOn((prev) => !prev);
+  };
+
+  const openBlackbox = async (type) => {
+    setModalContent(`${type} Terminal`);
+    setIsModalOpen(true);
+
+    if (type === 'SSH') {
+      try {
+        const response = await fetch('http://localhost:5000/api/connect-ssh', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            host: 'your-ssh-host',
+            port: 22,
+            username: 'your-username',
+            password: 'your-password', // יש להחליף לפרטים המתאימים שלך או לקבל אותם כקלט
+          }),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          setModalContent(`SSH Terminal Output:\n${data.output}`);
+        } else {
+          setModalContent(`SSH Connection Error: ${data.error}`);
+        }
+      } catch (error) {
+        setModalContent(`Network Error: ${error.message}`);
+      }
+    }
+  };
+
+  const closeBlackbox = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -63,6 +101,7 @@ const OneProduct = ({ product, onBack }) => {
         {['SSH', 'Telnet', 'CLI', 'JPref'].map((buttonLabel) => (
           <button
             key={buttonLabel}
+            onClick={() => openBlackbox(buttonLabel)}
             className="bg-indigo-600 text-white py-8 px-16 rounded-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none text-2xl"
           >
             {buttonLabel}
@@ -74,12 +113,13 @@ const OneProduct = ({ product, onBack }) => {
       <div className="flex flex-col items-center mt-12 gap-6">
         <button
           className="bg-purple-500 text-white py-6 px-12 rounded-lg shadow-lg hover:bg-purple-600 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none text-2xl"
-          onClick={() => navigate('/stremer')}
+          onClick={() => openBlackbox('Streamer')}
         >
           Stremer
         </button>
         <button
           className="bg-blue-500 text-white py-6 px-12 rounded-lg shadow-lg hover:bg-blue-600 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none text-2xl"
+          onClick={() => openBlackbox('Side Machine')}
         >
           Side Machine
         </button>
@@ -89,7 +129,7 @@ const OneProduct = ({ product, onBack }) => {
       {selectedDebug && (
         <div className="mt-6 bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold mb-4">Select Debug Option</h2>
-          <div className="flex gap-4  justify-center">
+          <div className="flex gap-4 justify-center">
             {debugOptions.map((option, index) => (
               <button
                 key={index}
@@ -111,8 +151,16 @@ const OneProduct = ({ product, onBack }) => {
           </button>
         </div>
       )}
+
+      {/* Blackbox Modal */}
+      <ModalWrapper isOpen={isModalOpen} onClose={closeBlackbox}>
+        <h2 className="text-xl font-bold mb-4">{modalContent}</h2>
+        <div className="h-48 bg-gray-900 p-4 rounded-lg overflow-auto">
+          <p>{modalContent}</p>
+        </div>
+      </ModalWrapper>
     </div>
   );
 };
 
-export default OneProduct;''
+export default OneProduct;
