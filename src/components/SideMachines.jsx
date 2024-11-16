@@ -34,14 +34,19 @@ const SideMachines = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-12 gap-4">
+    <div className="flex flex-col items-center mt-8 gap-4 bg-gray-800 p-4 rounded-lg shadow-lg w-full max-w-lg">
       <h2 className="text-white font-bold text-xl">{machineName}</h2>
-      <div className="flex flex-col items-center gap-4 w-full max-w-md">
+      <div className="flex flex-col items-center gap-4 w-full">
         <input
           type="text"
           placeholder="Type your message"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              sendMessage();
+            }
+          }}
           className="text-black border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
         />
         <div className="flex gap-4">
@@ -59,7 +64,7 @@ const SideMachines = () => {
           </button>
         </div>
       </div>
-      <div className="mt-6 w-full max-w-md">
+      <div className="mt-6 w-full">
         <h3 className="text-white font-bold">Messages:</h3>
         <ul className="space-y-3 mt-4">
           {messages.map((msg, index) => (
