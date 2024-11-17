@@ -64,19 +64,51 @@ const SideMachines = () => {
           </button>
         </div>
       </div>
-      <div className="mt-6 w-full">
-        <h3 className="text-white font-bold">Messages:</h3>
-        <ul className="space-y-3 mt-4">
-          {messages.map((msg, index) => (
-            <li
-              key={index}
-              className="bg-indigo-600 text-white p-3 rounded-lg shadow-md break-words"
-            >
-              <strong>{msg.from}:</strong> {msg.message}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {messages.length > 0 && (
+        <div className="mt-6 w-full max-h-72 overflow-y-auto p-4 rounded-lg custom-scrollbar">
+          <h3 className="text-white font-bold mb-3">Messages:</h3>
+          <ul className="space-y-3">
+            {messages.map((msg, index) => (
+              <li
+                key={index}
+                className="bg-gray-700 text-white p-4 rounded-lg shadow-md flex items-center transition-transform transform hover:scale-105"
+              >
+                <span className="flex items-center justify-center w-8 h-8 bg-indigo-500 text-white rounded-full mr-3">
+                  {msg.from[0].toUpperCase()}
+                </span>
+                <div>
+                  <strong className="text-indigo-300">{msg.from}:</strong>
+                  <p className="mt-1">{msg.message}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* CSS for custom scrollbar */}
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 10px; /* רוחב פס הגלילה */
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(22, 25, 50, 0.5); /* רקע שקוף למחצה */
+          backdrop-filter: blur(4px); /* אפקט טשטוש */
+          border-radius: 10px; /* עיגול לפינות של ה-track */
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(130, 65, 153, 0.7); /* צבע ה-thumb עם שקיפות */
+          border-radius: 10px; /* פינות עגולות */
+          box-shadow: 0 0 5px rgba(130, 65, 153, 0.7); /* אפקט זוהר */
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(32, 147, 210, 0.8); /* שינוי צבע בזוהר במעבר עכבר */
+          box-shadow: 0 0 10px rgba(32, 147, 210, 0.8); /* זוהר מוגבר */
+        }
+      `}</style>
     </div>
   );
 };
