@@ -65,7 +65,7 @@ const OneProduct = ({ product, onBack }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900 flex flex-col p-6 relative">
+    <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-black flex flex-col p-6 relative">
       {/* כפתור חזרה */}
       <button
         onClick={onBack}

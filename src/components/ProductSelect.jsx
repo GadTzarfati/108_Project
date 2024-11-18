@@ -62,7 +62,7 @@ const ProductSelect = ({ onLogout, onProductSelect }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-indigo-900 flex flex-col items-center justify-center p-6 relative">
+    <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-black flex flex-col items-center justify-center p-6 relative">
       <button
         onClick={handleLogout}
         className="absolute bottom-4 left-4 bg-indigo-600 text-white py-2 px-4 rounded-full flex items-center shadow-lg hover:bg-indigo-700 hover:shadow-xl transition transform hover:-translate-y-1"
