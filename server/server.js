@@ -34,36 +34,33 @@ app.post('/api/connect-ssh', (req, res) => {
   const { host, port, username, password } = req.body;
   const conn = new Client();
 
-  conn
-    .on('ready', () => {
-      console.log('Client :: ready');
-      conn.exec('uptime', (err, stream) => { // כאן תוכל לשנות את הפקודה ל-SSH לפי הצורך שלך
-        if (err) {
-          return res.status(500).json({ success: false, error: err.message });
-        }
-        let data = '';
-        stream
-          .on('close', () => {
-            conn.end();
-            res.json({ success: true, output: data });
-          })
-          .on('data', (chunk) => {
-            data += chunk;
-          })
-          .stderr.on('data', (chunk) => {
-            console.error('STDERR: ' + chunk);
-          });
-      });
-    })
-    .connect({
-      host,
-      port,
-      username,
-      password,
-    })
-    .on('error', (err) => {
-      res.status(500).json({ success: false, error: `SSH connection error: ${err.message}` });
+  conn.on('ready', () => {
+    console.log('Client :: ready');
+    conn.exec('uptime', (err, stream) => { // כאן תוכל לשנות את הפקודה ל-SSH לפי הצורך שלך
+      if (err) {
+        return res.status(500).json({ success: false, error: err.message });
+      }
+      let data = '';
+      stream
+        .on('close', () => {
+          conn.end();
+          res.json({ success: true, output: data });
+        })
+        .on('data', (chunk) => {
+          data += chunk;
+        })
+        .stderr.on('data', (chunk) => {
+          console.error('STDERR: ' + chunk);
+        });
     });
+  }).connect({
+    host,
+    port,
+    username,
+    password,
+  }).on('error', (err) => {
+    res.status(500).json({ success: false, error: `SSH connection error: ${err.message}` });
+  });
 });
 
 // Start Server

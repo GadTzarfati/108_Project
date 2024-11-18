@@ -37,10 +37,10 @@ const OneProduct = ({ product, onBack }) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            host: 'your-ssh-host',
+            host: '192.168.227.233',
             port: 22,
-            username: 'your-username',
-            password: 'your-password', // יש להחליף את הערכים המתאימים בפרטים שלך
+            username: 'void',
+            password: 'nullme11', // יש להחליף את הערכים המתאימים בפרטים שלך
           }),
         });
 
