@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaArrowLeft, FaBug, FaPowerOff } from 'react-icons/fa';
+import { FaArrowLeft, FaBug, FaPowerOff, FaKey, FaTerminal, FaCode, FaNetworkWired, FaBroadcastTower, FaTools } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import ModalWrapper from './ModalWrapper'; // ייבוא של ModalWrapper
 import SideMachines from './SideMachines'; // ייבוא של SideMachines
@@ -69,21 +69,21 @@ const OneProduct = ({ product, onBack }) => {
       {/* כפתור חזרה */}
       <button
         onClick={onBack}
-        className="absolute top-4 left-4 bg-indigo-600 text-white p-2 rounded-full shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center w-12 h-12"
+        className="absolute top-4 left-4 bg-indigo-600 text-white p-2 rounded-full shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center w-10 h-10"
       >
         <FaArrowLeft size={16} />
       </button>
       {/* כפתור Debug */}
       <button
         onClick={() => setSelectedDebug('')}
-        className="absolute top-4 right-24 bg-yellow-400 text-black p-2 rounded-full shadow-lg hover:bg-yellow-500 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center w-12 h-12"
+        className="absolute top-4 right-24 bg-yellow-400 text-black p-2 rounded-full shadow-lg hover:bg-yellow-500 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center w-10 h-10"
       >
         <FaBug size={18} />
       </button>
       {/* כפתור הדלקה וכיבוי */}
       <button
         onClick={togglePower}
-        className={`absolute top-4 right-4 p-2 rounded-full shadow-lg transition-transform transform hover:-translate-y-1 flex items-center justify-center w-12 h-12 ${
+        className={`absolute top-4 right-4 p-2 rounded-full shadow-lg transition-transform transform hover:-translate-y-1 flex items-center justify-center w-10 h-10 ${
           isPowerOn ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-500 hover:bg-gray-600'
         }`}
       >
@@ -103,32 +103,30 @@ const OneProduct = ({ product, onBack }) => {
       </div>
 
       {/* כפתורי הפעולות */}
-      <div className="absolute right-16 top-1/2 transform -translate-y-1/2 flex flex-col gap-8">
-        {['SSH', 'Telnet', 'CLI', 'JPref'].map((buttonLabel) => (
-          <button
-            key={buttonLabel}
-            onClick={() => openBlackbox(buttonLabel)}
-            className="bg-indigo-600 text-white py-8 px-16 rounded-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none text-2xl"
-          >
-            {buttonLabel}
-          </button>
-        ))}
-      </div>
-
-      {/* כפתור סטרימר ו-Side Machines */}
-      <div className="flex flex-col items-center mt-8 gap-6">
-        <button
-          className="bg-purple-500 text-white py-6 px-12 rounded-lg shadow-lg hover:bg-purple-600 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none text-2xl"
-          onClick={() => openBlackbox('Streamer')}
-        >
-          Stremer
-        </button>
-        <button
-          className="bg-blue-500 text-white py-4 px-8 rounded-lg shadow-lg hover:bg-blue-600 hover:shadow-xl transition-transform transform hover:-translate-y-1 focus:outline-none"
-          onClick={toggleSideMachinesModal}
-        >
-          Open Side Machines
-        </button>
+      <div className="absolute right-16 top-1/2 transform -translate-y-1/2 flex flex-col gap-6">
+        {['SSH', 'Telnet', 'CLI', 'JPref', 'Streamer', 'Side Machines'].map((buttonLabel) => {
+          const icons = {
+            SSH: <FaKey size={28} />,
+            Telnet: <FaTerminal size={28} />,
+            CLI: <FaCode size={28} />,
+            JPref: <FaTools size={28} />,
+            Streamer: <FaBroadcastTower size={28} />,
+            'Side Machines': <FaNetworkWired size={28} />,
+          };
+          const handleClick = buttonLabel === 'Side Machines' ? toggleSideMachinesModal : () => openBlackbox(buttonLabel);
+          return (
+            <button
+              key={buttonLabel}
+              onClick={handleClick}
+              className="flex flex-col items-center justify-center text-indigo-300 hover:text-indigo-600 transition-transform transform hover:-translate-y-1 focus:outline-none hover:shadow-2xl"
+            >
+              <div className="transition-transform transform hover:scale-125">
+                {icons[buttonLabel]}
+              </div>
+              <span className="text-xs mt-1">{buttonLabel}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* מודאל עבור Side Machines */}
