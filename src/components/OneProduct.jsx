@@ -106,12 +106,12 @@ const OneProduct = ({ product, onBack }) => {
       <div className="absolute right-16 top-1/2 transform -translate-y-1/2 flex flex-col gap-6">
         {['SSH', 'Telnet', 'CLI', 'JPref', 'Streamer', 'Side Machines'].map((buttonLabel) => {
           const icons = {
-            SSH: <FaKey size={28} />,
-            Telnet: <FaTerminal size={28} />,
-            CLI: <FaCode size={28} />,
-            JPref: <FaTools size={28} />,
-            Streamer: <FaBroadcastTower size={28} />,
-            'Side Machines': <FaNetworkWired size={28} />,
+            SSH: <FaKey size={36} />,
+            Telnet: <FaTerminal size={36} />,
+            CLI: <FaCode size={36} />,
+            JPref: <FaTools size={36} />,
+            Streamer: <FaBroadcastTower size={36} />,
+            'Side Machines': <FaNetworkWired size={36} />,
           };
           const handleClick = buttonLabel === 'Side Machines' ? toggleSideMachinesModal : () => openBlackbox(buttonLabel);
           return (
