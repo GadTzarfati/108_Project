@@ -40,7 +40,7 @@ const OneProduct = ({ product, onBack }) => {
             host: '192.168.227.233',
             port: 22,
             username: 'void',
-            password: 'nullme11', // יש להחליף את הערכים המתאימים בפרטים שלך
+            password: 'nullme11', 
           }),
         });
 
