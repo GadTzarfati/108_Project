@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 const ProductSelect = ({ onLogout, onProductSelect }) => {
   const navigate = useNavigate();
-
+ // base machine implmentation (base machine type)
+ 
   const cards = [
     {
       id: 1,
