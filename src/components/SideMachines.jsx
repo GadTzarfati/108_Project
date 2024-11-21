@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000'); // עדכן לפי כתובת השרת שלך
+const socket = io('http://localhost:5000');
 
 const SideMachines = () => {
   const [messages, setMessages] = useState([]);
@@ -19,7 +19,7 @@ const SideMachines = () => {
   }, []);
 
   const sendMessage = () => {
-    if (!inputMessage.trim()) return; // לא לשלוח הודעה ריקה
+    if (!inputMessage.trim()) return; 
     const messageData = {
       from: machineName,
       message: inputMessage,
@@ -85,32 +85,7 @@ const SideMachines = () => {
           </ul>
         </div>
       )}
-
-      {/* CSS for custom scrollbar */}
-      <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 10px; /* רוחב פס הגלילה */
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(22, 25, 50, 0.5); /* רקע שקוף למחצה */
-          backdrop-filter: blur(4px); /* אפקט טשטוש */
-          border-radius: 10px; /* עיגול לפינות של ה-track */
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(130, 65, 153, 0.7); /* צבע ה-thumb עם שקיפות */
-          border-radius: 10px; /* פינות עגולות */
-          box-shadow: 0 0 5px rgba(130, 65, 153, 0.7); /* אפקט זוהר */
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(32, 147, 210, 0.8); /* שינוי צבע בזוהר במעבר עכבר */
-          box-shadow: 0 0 10px rgba(32, 147, 210, 0.8); /* זוהר מוגבר */
-        }
-      `}</style>
     </div>
   );
 };
-
 export default SideMachines;
