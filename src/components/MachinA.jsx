@@ -75,7 +75,7 @@ class MachinA extends Machin {
                 <button
                     onClick={this.connectSSH}
                     className="absolute bottom-4 right-4 p-2 rounded-full shadow-lg transition-transform transform hover:-translate-y-1 flex items-center justify-center w-10 h-10 bg-blue-500 hover:bg-blue-600">
-                    <FaTerminal size={18} className="text-white" /> {/* שימוש באייקון */}
+                    <FaTerminal size={18} className="text-white" />
                 </button>
             );
         }
@@ -103,8 +103,8 @@ class MachinA extends Machin {
     render() {
         return (
             <div className="relative">
-                {super.render()} {/* פונקציית ההפעלה/כיבוי ממחלקת האב */}
-                {this.renderSSHInterface()} {/* ממשק SSH */}
+                {super.render()} 
+                {this.renderSSHInterface()}
             </div>
         );
     }
