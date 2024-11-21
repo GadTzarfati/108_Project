@@ -16,19 +16,15 @@ const OneProduct = ({ product, onBack }) => {
   const handleDebugSelect = (option) => {
     setSelectedDebug(option);
   };
-
   const handleDebugBack = () => {
     setSelectedDebug(null);
   };
-
   const togglePower = () => {
     setIsPowerOn((prev) => !prev);
   };
-
   const openBlackbox = async (type) => {
     setModalContent(`${type} Terminal`);
     setIsModalOpen(true);
-
     if (type === 'SSH') {
       try {
         const response = await fetch('http://localhost:5000/api/connect-ssh', {
@@ -59,18 +55,15 @@ const OneProduct = ({ product, onBack }) => {
   const closeBlackbox = () => {
     setIsModalOpen(false);
   };
-
   const toggleSideMachinesModal = () => {
     setShowSideMachinesModal((prev) => !prev);
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-black flex flex-col p-6 relative">
       {/* כפתור חזרה */}
       <button
         onClick={onBack}
-        className="absolute top-4 left-4 bg-indigo-600 text-white p-2 rounded-full shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center w-10 h-10"
-      >
+        className="absolute top-4 left-4 bg-indigo-600 text-white p-2 rounded-full shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-transform transform hover:-translate-y-1 flex items-center justify-center w-10 h-10">
         <FaArrowLeft size={16} />
       </button>
       {/* כפתור Debug */}
@@ -84,9 +77,7 @@ const OneProduct = ({ product, onBack }) => {
       <button
         onClick={togglePower}
         className={`absolute top-4 right-4 p-2 rounded-full shadow-lg transition-transform transform hover:-translate-y-1 flex items-center justify-center w-10 h-10 ${
-          isPowerOn ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-500 hover:bg-gray-600'
-        }`}
-      >
+          isPowerOn ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-500 hover:bg-gray-600'}`}>
         <FaPowerOff size={18} className="text-white" />
       </button>
 
@@ -95,9 +86,9 @@ const OneProduct = ({ product, onBack }) => {
         <img
           src={product.image}
           alt={product.text}
-          className="w-3/4 h-auto rounded-lg shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 mb-4 max-w-xs"
-        />
-        <div className="bg-indigo-600 text-white p-4 rounded-lg shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 w-3/4 max-w-xs text-center">
+          className="w-3/4 h-auto rounded-lg shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-1 mb-4 max-w-xs"/>
+        <div className="bg-indigo-600 text-white p-4 rounded-lg shadow-lg hover:shadow-2xl transition-transform transform hover:-translate
+        -y-1 w-3/4 max-w-xs text-center">
           <h1 className="text-lg font-bold">{product.text}</h1>
         </div>
       </div>
@@ -128,7 +119,6 @@ const OneProduct = ({ product, onBack }) => {
           );
         })}
       </div>
-
       {/* מודאל עבור Side Machines */}
       {showSideMachinesModal && (
         <ModalWrapper isOpen={showSideMachinesModal} onClose={toggleSideMachinesModal}>
