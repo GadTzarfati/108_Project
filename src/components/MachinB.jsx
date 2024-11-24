@@ -54,6 +54,7 @@ const MachinB = () => {
                     </div>
                 </div>
 
+
                 {/* כפתורים */}
                 <div className="absolute bottom-4 flex gap-4">
                     <button
