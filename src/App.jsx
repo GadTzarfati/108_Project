@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Login from './components/Login';
 import ProductSelect from './components/ProductSelect';
 import OneProduct from './components/OneProduct';
-import Stremer from './components/Stremer'; // ייבוא הקומפוננטה Stremer
+import Stremer from './components/Stremer';
+import MachinB from './components/MachinB'; // ייבוא הקומפוננטה MachinB
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,7 +50,17 @@ function App() {
             )
           }
         />
-        <Route path="/stremer" element={<Stremer />} /> {/* הוספת הנתיב לקומפוננטת Stremer */}
+        <Route
+          path="/machin-b"
+          element={
+            isLoggedIn ? (
+              <MachinB />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route path="/stremer" element={<Stremer />} />
       </Routes>
     </Router>
   );
