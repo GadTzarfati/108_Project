@@ -21,8 +21,7 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/" element={isLoggedIn?(<Navigate to="/products" />):( <Login onLogin={handleLogin} />)}/>
+        <Route path="/" element={isLoggedIn?(<Navigate to="/products" />):( <Login onLogin={handleLogin} />)}/>
         <Route path="/products"element={isLoggedIn?(<ProductSelect onLogout={handleLogout} onProductSelect={handleProductSelect} />):(<Navigate to="/ProductSeiect" />)}/>
         <Route path="/product-details"element={isLoggedIn && selectedProduct ? (<OneProduct product={selectedProduct} onBack={() => setSelectedProduct(null)} />):(<Navigate to="/products" />)}/>
         <Route path="/stremer" element={<Stremer />} />
