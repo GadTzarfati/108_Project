@@ -4,6 +4,8 @@ import Login from './components/Login';
 import ProductSelect from './components/ProductSelect';
 import OneProduct from './components/OneProduct';
 import Stremer from './components/Stremer';
+import MachinB from './components/MachinB';
+
 
 function AppRoutes() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
