@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { Client } = require('ssh2'); // ייבוא של ssh2
+const net = require('net'); // ייבוא של net עבור Telnet
 require('dotenv').config(); // טוען את קובץ .env
 
 const app = express();
@@ -35,8 +36,8 @@ app.post('/api/connect-ssh', (req, res) => {
   const conn = new Client();
 
   conn.on('ready', () => {
-    console.log('Client :: ready');
-    conn.exec('uptime', (err, stream) => { // כאן תוכל לשנות את הפקודה ל-SSH לפי הצורך שלך
+    console.log('SSH Client :: ready');
+    conn.exec('uptime', (err, stream) => {
       if (err) {
         return res.status(500).json({ success: false, error: err.message });
       }
@@ -61,6 +62,85 @@ app.post('/api/connect-ssh', (req, res) => {
   }).on('error', (err) => {
     res.status(500).json({ success: false, error: `SSH connection error: ${err.message}` });
   });
+});
+
+// Telnet Connection Endpoint
+app.post('/api/connect-telnet', (req, res) => {
+  const { host, port } = req.body;
+  const client = new net.Socket();
+
+  client.connect(port, host, () => {
+    console.log('Connected to Telnet server');
+    client.write('Hello from client!\n');
+  });
+
+  client.on('data', (data) => {
+    res.json({ success: true, output: data.toString() });
+    client.destroy(); // סגירת החיבור
+  });
+
+  client.on('error', (err) => {
+    res.status(500).json({ success: false, error: `Telnet connection error: ${err.message}` });
+  });
+
+  client.on('close', () => {
+    console.log('Telnet connection closed');
+  });
+});
+
+// CLI Connection Endpoint
+app.post('/api/connect-cli', (req, res) => {
+  const { chips } = req.body; // מערך של שלושת הצ'יפים: [{host, username, password}, ...]
+  const responses = [];
+
+  chips.forEach((chip, index) => {
+    const conn = new Client();
+
+    conn.on('ready', () => {
+      console.log(`CLI Client :: ready for Chip ${index + 1}`);
+      conn.exec('python3', (err, stream) => {
+        if (err) {
+          responses.push({ success: false, error: err.message, chip: index + 1 });
+          if (responses.length === chips.length) {
+            res.json(responses);
+          }
+          return;
+        }
+        let data = '';
+        stream
+          .on('close', () => {
+            conn.end();
+            responses.push({ success: true, output: data, chip: index + 1 });
+            if (responses.length === chips.length) {
+              res.json(responses);
+            }
+          })
+          .on('data', (chunk) => {
+            data += chunk;
+          })
+          .stderr.on('data', (chunk) => {
+            console.error(`STDERR Chip ${index + 1}: ` + chunk);
+          });
+      });
+    }).connect({
+      host: chip.host,
+      username: chip.username,
+      password: chip.password,
+    }).on('error', (err) => {
+      responses.push({ success: false, error: `CLI connection error: ${err.message}`, chip: index + 1 });
+      if (responses.length === chips.length) {
+        res.json(responses);
+      }
+    });
+  });
+});
+
+// Power Toggle Endpoint
+app.post('/api/toggle-power', (req, res) => {
+  const { machineId, powerState } = req.body; // machineId לזיהוי מכונה
+  const newState = !powerState; // הפיכת המצב הנוכחי
+  // דוגמה: כאן ניתן להוסיף לוגיקה לביצוע פעולה במכונה לפי ID
+  res.json({ success: true, newState });
 });
 
 // Start Server
