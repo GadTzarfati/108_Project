@@ -8,13 +8,11 @@ function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // שם משתמש וסיסמה קבועים לדוגמה
     const hardcodedUsername = 'Gad';
     const hardcodedPassword = 'Y12345'; 
 
-    // בדיקת פרטי התחברות
     if (username === hardcodedUsername && password === hardcodedPassword) {
-      onLogin(); // התחברות מוצלחת
+      onLogin();
     } else {
       setError('שם משתמש או סיסמה לא נכונים');
     }
