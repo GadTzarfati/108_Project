@@ -21,7 +21,7 @@ function AppRoutes() {
       <Routes>
         <Route
           path="/" element={isLoggedIn?(<Navigate to="/products" />):( <Login onLogin={handleLogin} />)}/>
-        <Route path="/products"element={isLoggedIn?(<ProductSelect onLogout={handleLogout} onProductSelect={handleProductSelect} />):(<Navigate to="/" />)}/>
+        <Route path="/products"element={isLoggedIn?(<ProductSelect onLogout={handleLogout} onProductSelect={handleProductSelect} />):(<Navigate to="/ProductSeiect" />)}/>
         <Route path="/product-details"element={isLoggedIn && selectedProduct ? (<OneProduct product={selectedProduct} onBack={() => setSelectedProduct(null)} />):(<Navigate to="/products" />)}/>
         <Route path="/stremer" element={<Stremer />} />
         <Route path="*"element={<h2 style={{ textAlign: 'center', color: 'red' }}>404 - Page Not Found</h2>}/>
